@@ -1,0 +1,26 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{namedisp}[2014/07/26 Extension personnelle, v0.1] ;
+
+% Extensions
+
+\RequirePackage{datatool}	% Le paquet permet la création des initiales
+\RequirePackage{ifthen}	% Nécessaire pour une construction conditionnelle
+\RequirePackage{fmtcount}	%	Nécessaire pour la mise en place du compteur
+\RequirePackage{makeidx}	%	Ne sert que dans le cas où l'on souhaite avoir un index des noms
+
+% Construction de la commande principale
+\newcommand{\nom}[2]{%
+	\renewcommand*{\DTLbetweeninitials}{.\;}%
+	\ifcsname c@#2#1\endcsname\stepcounter{#2#1}%
+		\DTLinitials{#1} #2%
+	\else%
+		\newcounter{#2#1}%
+		#1 #2\fi%
+	\index{#2, #1@\textsc{#2}, #1}%
+}
+
+%%%% TO DO %%%%
+% Il faudrait :
+%	- permettre de choisir entre des noms en petite capitale ou non ;
+%	- donner la possibilité de définir si le nom vient avant ou après le prénom dans l'index ;
+%	- permettre d'activer ou de desactiver l'index.
